@@ -24,7 +24,6 @@ namespace API.Exstentions
                     ValidateAudience = false
                 };
             });
-
             return services;
         }
     }
