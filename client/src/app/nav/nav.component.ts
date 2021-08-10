@@ -13,11 +13,14 @@ import { AccountService } from '../_services/account.service';
 
 export class NavComponent implements OnInit {
   model: any = {}
+  user!: User;
 
   constructor(public accountService: AccountService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
      this.accountService.getCurrentUser();
+     this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    // console.log(this.user.photoUrl);
   }
 
   login() { 
