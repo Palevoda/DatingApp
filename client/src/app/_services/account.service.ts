@@ -56,7 +56,7 @@ export class AccountService {
   getCurrentUser()////////
   {
     console.log(localStorage.length);
-    if (localStorage.getItem('user') != '{}')
+    if (localStorage.getItem('user') != '{}' && localStorage.getItem('user'))
     {
     this.currentUserSource.next(JSON.parse(localStorage.getItem('user') || ''));
     }

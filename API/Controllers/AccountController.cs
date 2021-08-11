@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using API.Interfaces;
+using AutoMapper;
 
 namespace API.Controllers
 {
@@ -19,11 +20,13 @@ namespace API.Controllers
         private readonly DataContext context;
         private readonly ITokenService tokenService;
         private readonly IUserRepository repository;
-        public AccountController(DataContext context, ITokenService tokenService, IUserRepository repository)
+        private readonly IMapper mapper;
+        public AccountController(DataContext context, ITokenService tokenService, IUserRepository repository, IMapper mapper)
         {
             this.context = context;
             this.tokenService = tokenService;
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         [HttpPost("register")]
@@ -31,14 +34,13 @@ namespace API.Controllers
         {
             if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
 
+            var user = mapper.Map<AppUser>(registerDto);
+
             using var hmack = new HMACSHA512();
 
-            var user = new AppUser
-            {
-                UserName = registerDto.Username.ToLower(),
-                PasswordHash = hmack.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmack.Key
-            };
+            user.UserName = registerDto.Username.ToLower();
+            user.PasswordHash = hmack.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+            user.PasswordSalt = hmack.Key;     
 
             context.Users.Add(user);
             await context.SaveChangesAsync();
@@ -47,7 +49,8 @@ namespace API.Controllers
             {
                 Username = user.UserName,
                 Token = tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(x => x.isMain)?.Url
+               // PhotoUrl = user.Photos.FirstOrDefault(x => x.isMain)?.Url,
+                KnownAs = user.KnownAs
             };
         }
 
@@ -73,7 +76,8 @@ namespace API.Controllers
             {
                 Username = user.UserName,  
                 Token = tokenService.CreateToken(user),
-                PhotoUrl = user.Photos.FirstOrDefault(x=>x.isMain)?.Url
+                PhotoUrl = user.Photos.FirstOrDefault(x=>x.isMain)?.Url,
+                KnownAs = user.KnownAs
             };
         }
 
