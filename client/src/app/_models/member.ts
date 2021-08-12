@@ -1,3 +1,4 @@
+import { TimeagoClock } from "ngx-timeago";
 import { Photo } from "./photo";
 
 export interface Member {

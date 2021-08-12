@@ -10,7 +10,12 @@ namespace API.Exstentions
     {
         public static string GetUserName(this ClaimsPrincipal user)
         {
-            return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return user.FindFirst(ClaimTypes.Name)?.Value;
         }
+        //public static string GetUserName(this ClaimsPrincipal user)
+        //{
+        //    return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        //}
+
     }
 }

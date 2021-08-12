@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using API.DTOs;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using API.Helpers;
 
 namespace API.Data
 {
@@ -33,6 +34,30 @@ namespace API.Data
         public async Task<IEnumerable<MemberDto>> GetMembersAsync()
         {
             return await context.Users.ProjectTo<MemberDto>(mapper.ConfigurationProvider).ToListAsync();
+        }
+
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
+        {
+            var query = context.Users.AsQueryable();
+
+            query = query.Where(x => x.Gender.Equals(userParams.Gender)); //
+            query = query.Where(x => !x.UserName.Equals(userParams.CurrentUsername));
+
+            var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+            var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
+
+            query = query.Where(x => x.DateOfBirth >= minDob && x.DateOfBirth <= maxDob);
+
+            query = userParams.OrderBy switch
+            {
+                "created" => query = query.OrderByDescending(u => u.Created),
+                _ => query = query.OrderByDescending(u => u.LastActive)
+            };
+
+            return await PagedList<MemberDto>.CreateAsync(
+                query.ProjectTo<MemberDto>(mapper.ConfigurationProvider).AsNoTracking(), 
+                userParams.PageNumber, 
+                userParams.PageSize);
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
