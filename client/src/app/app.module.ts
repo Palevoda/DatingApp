@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Directive, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
 
@@ -31,6 +31,12 @@ import { TextInputComponent } from './text-input/text-input.component';
 import { DateInputComponent } from './forms/date-input/date-input.component';
 import { KekComponent } from './forms/kek/kek.component';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './directives/has-role.directive';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { PhotoManagmentsComponent } from './admin/photo-managments/photo-managments.component';
+import { RolesModalComponent } from './_services/roles-modal/roles-modal.component';
+
 
 
 
@@ -53,7 +59,12 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     TextInputComponent,
     DateInputComponent,
     KekComponent,
-    MemberMessagesComponent
+    MemberMessagesComponent,
+    AdminPanelComponent,
+    HasRoleDirective,
+    UserManagementComponent,
+    PhotoManagmentsComponent,
+    RolesModalComponent
   ],
   imports: [
     BrowserModule,
@@ -64,14 +75,16 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     ReactiveFormsModule,
     SharedModule,
     NgxGalleryModule,
-    NgxSpinnerModule
+    NgxSpinnerModule    
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],
+  exports: [HasRoleDirective],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  
 })
 export class AppModule { }

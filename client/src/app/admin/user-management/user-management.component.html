@@ -1,0 +1,14 @@
+<div class="row">
+    <table class="table">
+        <tr>
+            <th style = "width: 30%;">Username</th>
+            <th style = "width: 40%;">Active roles</th>
+            <th style = "width: 30%;"></th>
+        </tr>
+        <tr *ngFor="let user of users">
+            <td>{{$any(user!.username)}}</td>
+            <td>{{$any(user!.roles)}}</td>
+            <td><button (click)="openRolesModal($any(user))" class="btn btn-info btn-sm" style = "background-color:rgb(20,138,156);">Edit roles</button></td>
+        </tr>
+    </table>
+</div>
