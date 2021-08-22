@@ -2,6 +2,7 @@
 using API.Helpers;
 using API.Interfaces;
 using API.Services;
+using API.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,7 @@ namespace API.Exstentions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            services.AddSingleton<PresenceTracker>();
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPhotoService, PhotoService>();

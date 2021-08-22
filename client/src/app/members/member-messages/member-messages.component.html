@@ -1,11 +1,12 @@
 <div class="card">
     <div class="card-body">
-        <div *ngIf="messages?.length === 0">
+        <!-- *ngIf="messages?.length === 0" -->
+        <div >
             No messages ... Say "Hi" to start dialog
         </div>
-
-        <ul *ngIf="messages.length > 0" class = "chat">
-            <li *ngFor="let message of messages">
+<!-- *ngIf="messages.length > 0" -->
+        <ul class = "chat">  
+            <li *ngFor="let message of messageService.messageThread$ | async">
                 <div>
                     <span class="chat-img float-right">
                         <img src="{{message.senderPhotoUrl || './assets/user.png'}}" alt="{{message.senderUsername}}" class="rounded-circle">
@@ -14,10 +15,10 @@
                         <div class="header">
                             <small class="text-muted">
                                 <span class="fa fa-clock-o">{{message.dateSend | timeago}}</span>
-                                <span class="text-denger" *ngIf="!message.dateRead">
+                                <span class="text-denger" *ngIf="message.dateRead == null">
                                     (unread)
                                 </span>
-                                <span class="text-denger ml-2" *ngIf="!message.dateRead">
+                                <span class="text-denger ml-2" *ngIf="message.dateRead">
                                     (read {{message.dateRead | timeago}})
                                 </span>
                             </small>

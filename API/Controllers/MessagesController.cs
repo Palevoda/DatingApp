@@ -34,28 +34,28 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto messageDto) 
         {
-            var username = User.GetUserName();
+            //var username = User.GetUserName();
 
-            if (username.Equals(messageDto.RecipientUsername.ToLower()))
-                return BadRequest("You cannot send messages yourself");
+            //if (username.Equals(messageDto.RecipientUsername.ToLower()))
+            //    return BadRequest("You cannot send messages yourself");
 
-            var sender = await userRepository.GetUserByUserNameAsync(username);
-            var recipient = await userRepository.GetUserByUserNameAsync(messageDto.RecipientUsername.ToLower());
+            //var sender = await userRepository.GetUserByUserNameAsync(username);
+            //var recipient = await userRepository.GetUserByUserNameAsync(messageDto.RecipientUsername.ToLower());
 
-            if (recipient == null) return NotFound();
+            //if (recipient == null) return NotFound();
 
-            var message = new Message
-            {
-                Sender = sender,
-                Recipient = recipient,
-                SenderUsername = sender.UserName,
-                RecipientUsername = recipient.UserName,
-                Content = messageDto.Content
-            };
+            //var message = new Message
+            //{
+            //    Sender = sender,
+            //    Recipient = recipient,
+            //    SenderUsername = sender.UserName,
+            //    RecipientUsername = recipient.UserName,
+            //    Content = messageDto.Content
+            //};
 
-            messageRepository.AddMessage(message);
+            //messageRepository.AddMessage(message);
 
-            if (await messageRepository.SaveAllAsync()) return Ok(mapper.Map<MessageDto>(message));
+            //if (await messageRepository.SaveAllAsync()) return Ok(mapper.Map<MessageDto>(message));
 
             return BadRequest("Failed to send message");
         }
