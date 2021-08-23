@@ -19,11 +19,11 @@ namespace API.Helpers
             if (!resultContext.HttpContext.User.Identity.IsAuthenticated) return;
 
             var username = resultContext.HttpContext.User.GetUserName();
-            var repository = resultContext.HttpContext.RequestServices.GetService<IUserRepository>();
-            var user = await  repository.GetUserByUserNameAsync(username);
+            var uow = resultContext.HttpContext.RequestServices.GetService<IUnitOfWork>();
+            var user = await  uow.userRepository.GetUserByUserNameAsync(username);
 
             user.LastActive = DateTime.Now;
-            await repository.SaveAllAsync();
+            await uow.Complete(); ;
 
         }
     }

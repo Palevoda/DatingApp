@@ -5,7 +5,12 @@
             No messages ... Say "Hi" to start dialog
         </div>
 <!-- *ngIf="messages.length > 0" -->
-        <ul class = "chat">  
+        <ul class = "chat"
+            #scrollMe
+            style = "overflow: scroll; height: 430px"
+            [scrollTop]="scrollMe.scrollHeight"
+            
+        >  
             <li *ngFor="let message of messageService.messageThread$ | async">
                 <div>
                     <span class="chat-img float-right">
@@ -15,12 +20,12 @@
                         <div class="header">
                             <small class="text-muted">
                                 <span class="fa fa-clock-o">{{message.dateSend | timeago}}</span>
-                                <span class="text-denger" *ngIf="message.dateRead == null">
+                                <!-- <span class="text-denger" *ngIf="message.dateRead == null">
                                     (unread)
                                 </span>
                                 <span class="text-denger ml-2" *ngIf="message.dateRead">
                                     (read {{message.dateRead | timeago}})
-                                </span>
+                                </span> -->
                             </small>
                         </div>
                         <p>{{message.content}}</p>

@@ -18,15 +18,15 @@ namespace API.Controllers
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
         private readonly ITokenService tokenService;
-        private readonly IUserRepository repository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, IUserRepository repository, IMapper mapper)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.tokenService = tokenService;
-            this.repository = repository;
+            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
 

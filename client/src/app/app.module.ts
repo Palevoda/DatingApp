@@ -36,6 +36,8 @@ import { HasRoleDirective } from './directives/has-role.directive';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { PhotoManagmentsComponent } from './admin/photo-managments/photo-managments.component';
 import { RolesModalComponent } from './_services/roles-modal/roles-modal.component';
+import { ConfirmComponent } from './_services/confirm/confirm.component';
+import { ModalGialogComponent } from './modals/modal-gialog/modal-gialog.component';
 
 
 
@@ -64,7 +66,9 @@ import { RolesModalComponent } from './_services/roles-modal/roles-modal.compone
     HasRoleDirective,
     UserManagementComponent,
     PhotoManagmentsComponent,
-    RolesModalComponent
+    RolesModalComponent,
+    ConfirmComponent,
+    ModalGialogComponent
   ],
   imports: [
     BrowserModule,
