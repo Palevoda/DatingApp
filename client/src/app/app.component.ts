@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
 
   setCurrentUser(){
     const user : User = JSON.parse(localStorage.getItem('user') || '{}'); //&&
-    if (user) {
+    if (user.username != undefined) {
       this.accountService.setCurrentUser(user);
       this.presenceService.createConnections(user);
     }
